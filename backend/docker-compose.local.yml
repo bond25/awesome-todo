@@ -1,0 +1,23 @@
+version: '3.6'
+services:
+  postgres:
+    image: postgres
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: '${DB_USER}'
+      POSTGRES_PASSWORD: '${DB_PASSWORD}'
+      POSTGRES_DB: '${DB_NAME}'
+    volumes:
+      - todo-data:/var/lib/postgresql/data
+  graphql-engine:
+    image: hasura/graphql-engine:v1.0.0-beta.2
+    ports:
+      - '9555:8080'
+    depends_on:
+      - 'postgres'
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: 'postgres://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}'
+      HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
+volumes:
+  todo-data:
