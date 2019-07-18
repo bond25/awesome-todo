@@ -6,7 +6,7 @@ import {ObjectType, Field, Int} from 'type-graphql';
 export class User {
     @PrimaryGeneratedColumn()
     @Field(type => Int)
-    private userId: number;
+    readonly userId: number;
 
     @Column('text')
     @Field()
@@ -15,4 +15,8 @@ export class User {
     @Column('text')
     @Field()
     email: string;
+
+    // TODO: secure passwrord
+    @Column('text')
+    password: string;
 }
